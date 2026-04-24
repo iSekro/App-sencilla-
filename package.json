@@ -1,0 +1,55 @@
+{
+  "name": "app-sencilla",
+  "version": "1.0.0",
+  "description": "Lista de tareas simple empaquetada como app de escritorio con Electron.",
+  "main": "main.js",
+  "author": "iSekro",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:win:portable": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.isekro.app-sencilla",
+    "productName": "App Sencilla",
+    "files": [
+      "main.js",
+      "index.html",
+      "styles.css",
+      "app.js",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "App Sencilla"
+    },
+    "portable": {
+      "artifactName": "AppSencilla-Portable-${version}.${ext}"
+    }
+  }
+}
