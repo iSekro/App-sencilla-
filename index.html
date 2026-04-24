@@ -3,37 +3,262 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lista de Tareas</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';" />
+  <title>Sekro Download Manager</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="app">
-    <h1>Mis Tareas</h1>
-
-    <form id="task-form" class="task-form" autocomplete="off">
-      <input
-        id="task-input"
-        type="text"
-        placeholder="Escribe una tarea..."
-        maxlength="200"
-        required
-      />
-      <button type="submit">Añadir</button>
-    </form>
-
-    <div class="filters" role="tablist">
-      <button type="button" class="filter active" data-filter="all">Todas</button>
-      <button type="button" class="filter" data-filter="active">Pendientes</button>
-      <button type="button" class="filter" data-filter="done">Hechas</button>
+  <!-- Custom Title Bar -->
+  <header class="titlebar" id="titlebar">
+    <div class="titlebar-left">
+      <svg class="titlebar-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      <span class="titlebar-title">Sekro Download Manager</span>
     </div>
+    <div class="titlebar-controls">
+      <button class="titlebar-btn" id="btn-minimize" title="Minimizar">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <button class="titlebar-btn" id="btn-maximize" title="Maximizar">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+      </button>
+      <button class="titlebar-btn titlebar-close" id="btn-close" title="Cerrar">
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+      </button>
+    </div>
+  </header>
 
-    <ul id="task-list" class="task-list"></ul>
+  <!-- Main Layout -->
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-section">
+        <button class="sidebar-btn active" data-view="downloads">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span>Descargas</span>
+        </button>
+        <button class="sidebar-btn" data-view="completed">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <span>Completadas</span>
+        </button>
+        <button class="sidebar-btn" data-view="categories">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>Categorías</span>
+        </button>
+      </div>
+      <div class="sidebar-section sidebar-bottom">
+        <button class="sidebar-btn" data-view="settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>Ajustes</span>
+        </button>
+      </div>
+    </nav>
 
-    <footer class="app-footer">
-      <span id="counter">0 tareas pendientes</span>
-      <button id="clear-done" type="button">Borrar hechas</button>
-    </footer>
-  </main>
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <button class="toolbar-btn primary" id="btn-add-download" title="Nueva descarga">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          <span>Nueva Descarga</span>
+        </button>
+        <button class="toolbar-btn" id="btn-resume-all" title="Reanudar todo">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          <span>Reanudar</span>
+        </button>
+        <button class="toolbar-btn" id="btn-pause-all" title="Pausar todo">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+          </svg>
+          <span>Pausar</span>
+        </button>
+        <div class="toolbar-spacer"></div>
+        <div class="toolbar-stats">
+          <span id="stat-speed" class="stat-badge">0 B/s</span>
+          <span id="stat-active" class="stat-badge">0 activas</span>
+        </div>
+      </div>
+
+      <!-- Downloads View -->
+      <section class="view active" id="view-downloads">
+        <div class="download-list" id="download-list">
+          <div class="empty-state" id="empty-state">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <p>No hay descargas activas</p>
+            <p class="sub">Haz clic en <strong>"Nueva Descarga"</strong> para empezar</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Completed View -->
+      <section class="view" id="view-completed">
+        <div class="download-list" id="completed-list">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <p>No hay descargas completadas</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Categories View -->
+      <section class="view" id="view-categories">
+        <div class="categories-grid" id="categories-grid">
+          <div class="category-card" data-category="video">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+            <span class="cat-name">Vídeos</span>
+            <span class="cat-count" id="cat-video">0</span>
+          </div>
+          <div class="category-card" data-category="audio">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+            </svg>
+            <span class="cat-name">Audio</span>
+            <span class="cat-count" id="cat-audio">0</span>
+          </div>
+          <div class="category-card" data-category="document">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span class="cat-name">Documentos</span>
+            <span class="cat-count" id="cat-document">0</span>
+          </div>
+          <div class="category-card" data-category="image">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <span class="cat-name">Imágenes</span>
+            <span class="cat-count" id="cat-image">0</span>
+          </div>
+          <div class="category-card" data-category="archive">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 8v13H3V8"/><path d="M1 3h22v5H1z"/><path d="M10 12h4"/>
+            </svg>
+            <span class="cat-name">Archivos</span>
+            <span class="cat-count" id="cat-archive">0</span>
+          </div>
+          <div class="category-card" data-category="program">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            <span class="cat-name">Programas</span>
+            <span class="cat-count" id="cat-program">0</span>
+          </div>
+          <div class="category-card" data-category="general">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/>
+            </svg>
+            <span class="cat-name">General</span>
+            <span class="cat-count" id="cat-general">0</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings View -->
+      <section class="view" id="view-settings">
+        <div class="settings-panel">
+          <h2>Configuración</h2>
+          <div class="setting-group">
+            <label class="setting-label">Carpeta de descargas</label>
+            <div class="setting-row">
+              <input type="text" id="setting-path" class="setting-input" readonly />
+              <button class="setting-browse" id="btn-browse">Examinar...</button>
+            </div>
+          </div>
+          <div class="setting-group">
+            <label class="setting-label">Descargas simultáneas máximas</label>
+            <select id="setting-concurrent" class="setting-select">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="5">5</option>
+              <option value="8">8</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+          <div class="setting-group">
+            <label class="setting-label">Conexiones por descarga</label>
+            <select id="setting-connections" class="setting-select">
+              <option value="1">1 (sin aceleración)</option>
+              <option value="4">4</option>
+              <option value="8">8 (recomendado)</option>
+              <option value="16">16</option>
+              <option value="32">32 (máxima velocidad)</option>
+            </select>
+          </div>
+          <button class="btn-save-settings" id="btn-save-settings">Guardar Cambios</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Add Download Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal-add">
+      <div class="modal-header">
+        <h3>Nueva Descarga</h3>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>URL del archivo</label>
+          <input type="url" id="input-url" class="form-input" placeholder="https://ejemplo.com/archivo.zip" autofocus />
+        </div>
+        <div class="form-group">
+          <label>Nombre del archivo (opcional)</label>
+          <input type="text" id="input-filename" class="form-input" placeholder="Se detecta automáticamente" />
+        </div>
+        <div class="form-group">
+          <label>Guardar en</label>
+          <div class="form-row">
+            <input type="text" id="input-savepath" class="form-input" readonly />
+            <button class="btn-browse-modal" id="btn-browse-modal">...</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Conexiones</label>
+          <select id="input-connections" class="form-select">
+            <option value="1">1</option>
+            <option value="4">4</option>
+            <option value="8" selected>8</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" id="btn-modal-cancel">Cancelar</button>
+        <button class="btn-start" id="btn-modal-start">Iniciar Descarga</button>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

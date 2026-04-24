@@ -1,37 +1,55 @@
 {
-  "name": "app-sencilla",
+  "name": "sekro-download-manager",
   "version": "1.0.0",
-  "description": "Lista de Tareas - Aplicación de escritorio",
+  "description": "Sekro Download Manager — Gestor de descargas portable para Windows con descargas multi-hilo, pausa/reanudar y aceleración",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --win"
+    "build": "electron-builder --win",
+    "build:portable": "electron-builder --win portable",
+    "build:installer": "electron-builder --win nsis",
+    "build:all": "electron-builder --win portable nsis"
   },
-  "author": "",
+  "author": "iSekro",
   "license": "MIT",
   "devDependencies": {
     "electron": "^33.0.0",
     "electron-builder": "^25.1.8"
   },
   "build": {
-    "appId": "com.appsencilla.tareas",
-    "productName": "Lista de Tareas",
+    "appId": "com.sekro.downloadmanager",
+    "productName": "Sekro Download Manager",
     "directories": {
       "output": "dist"
     },
     "files": [
       "main.js",
+      "preload.js",
+      "download-engine.js",
       "index.html",
       "app.js",
       "styles.css"
     ],
     "win": {
-      "target": "nsis",
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        },
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
       "icon": null
+    },
+    "portable": {
+      "artifactName": "SekroDownloadManager-${version}-Portable.${ext}"
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "SekroDownloadManager-${version}-Setup.${ext}"
     }
   }
 }
