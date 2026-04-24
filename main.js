@@ -8,12 +8,13 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true
-    }
+    },
+    icon: path.join(__dirname, 'icon.png'),
+    title: 'Lista de Tareas'
   });
 
   win.loadFile('index.html');
 
-  // Ocultar la barra de menú por defecto
   win.setMenuBarVisibility(false);
 }
 
