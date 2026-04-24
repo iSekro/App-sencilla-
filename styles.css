@@ -1,0 +1,199 @@
+:root {
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --danger: #ef4444;
+  --border: #e5e7eb;
+  --success: #10b981;
+  --radius: 10px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+.app {
+  background: var(--surface);
+  width: 100%;
+  max-width: 520px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+h1 {
+  margin: 0 0 20px;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.task-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.task-form input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.task-form input:focus {
+  border-color: var(--primary);
+}
+
+.task-form button {
+  padding: 10px 18px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.task-form button:hover {
+  background: var(--primary-hover);
+}
+
+.filters {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  justify-content: center;
+}
+
+.filter {
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.15s;
+}
+
+.filter:hover {
+  color: var(--text);
+}
+
+.filter.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.task-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.task-list li:hover {
+  background: #fafafa;
+}
+
+.task-list li.done .task-text {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.task-list input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--success);
+  cursor: pointer;
+}
+
+.task-text {
+  flex: 1;
+  word-break: break-word;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  opacity: 0.5;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.task-list li:hover .delete-btn {
+  opacity: 1;
+}
+
+.delete-btn:hover {
+  background: #fee2e2;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 24px 8px;
+  font-size: 0.95rem;
+}
+
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+#clear-done {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+
+#clear-done:hover {
+  color: var(--danger);
+  background: #fee2e2;
+}
