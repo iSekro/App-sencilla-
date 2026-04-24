@@ -1,20 +1,23 @@
 {
   "name": "app-sencilla",
   "version": "1.0.0",
-  "description": "Lista de Tareas - Aplicación de escritorio",
+  "description": "Aplicación de escritorio de lista de tareas hecha con Electron, HTML, CSS y JavaScript.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --win"
+    "build": "electron-builder --win",
+    "dist": "electron-builder --win",
+    "dist:all": "electron-builder --win --mac --linux"
   },
-  "author": "",
-  "license": "MIT",
+  "keywords": ["electron", "todo", "desktop"],
+  "author": "iSekro",
+  "license": "ISC",
   "devDependencies": {
-    "electron": "^33.0.0",
-    "electron-builder": "^25.1.8"
+    "electron": "^41.3.0",
+    "electron-builder": "^26.8.1"
   },
   "build": {
-    "appId": "com.appsencilla.tareas",
+    "appId": "com.isekro.app-sencilla",
     "productName": "Lista de Tareas",
     "directories": {
       "output": "dist"
@@ -22,16 +25,19 @@
     "files": [
       "main.js",
       "index.html",
+      "styles.css",
       "app.js",
-      "styles.css"
+      "icon.png"
     ],
     "win": {
       "target": "nsis",
-      "icon": null
+      "icon": "icon.png"
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "icon.png",
+      "uninstallerIcon": "icon.png"
     }
   }
 }

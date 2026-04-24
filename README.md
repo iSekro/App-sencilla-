@@ -1,6 +1,6 @@
 # App Sencilla — Lista de Tareas
 
-Aplicación web simple de lista de tareas hecha con **HTML, CSS y JavaScript puro** (sin frameworks ni dependencias).
+Aplicación de escritorio de lista de tareas hecha con **Electron, HTML, CSS y JavaScript puro**.
 
 ## Funcionalidades
 
@@ -12,18 +12,43 @@ Aplicación web simple de lista de tareas hecha con **HTML, CSS y JavaScript pur
 - Contador de tareas pendientes.
 - Las tareas se guardan en `localStorage`, así que persisten al recargar la página.
 
-## Cómo usar
+## Requisitos
 
-Abre `index.html` en tu navegador. No necesita servidor ni build step.
+- [Node.js](https://nodejs.org/) (v18 o superior recomendado)
+- npm (incluido con Node.js)
+
+## Instalación
 
 ```bash
-# Opcional: servir con un servidor estático
-python3 -m http.server 8000
-# luego abrir http://localhost:8000
+npm install
+```
+
+## Uso en modo desarrollo
+
+```bash
+npm start
+```
+
+Esto abrirá la aplicación de escritorio con Electron.
+
+## Generar ejecutable (.exe) para Windows
+
+```bash
+npm run dist
+```
+
+El instalador `.exe` se generará en la carpeta `dist/`.
+
+## Generar para todas las plataformas
+
+```bash
+npm run dist:all
 ```
 
 ## Estructura
 
-- `index.html` — marcado y punto de entrada.
+- `main.js` — punto de entrada de Electron (proceso principal).
+- `index.html` — marcado y punto de entrada del renderizador.
 - `styles.css` — estilos de la interfaz.
-- `app.js` — lógica de la aplicación.
+- `app.js` — lógica de la aplicación (proceso renderizador).
+- `package.json` — configuración del proyecto, scripts y configuración de electron-builder.
