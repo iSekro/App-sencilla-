@@ -8,6 +8,7 @@ function createWindow() {
     minWidth: 420,
     minHeight: 520,
     title: 'App Sencilla — Lista de Tareas',
+    icon: path.join(__dirname, 'build', 'icon.png'),
     autoHideMenuBar: true,
     backgroundColor: '#f4f6fb',
     webPreferences: {
